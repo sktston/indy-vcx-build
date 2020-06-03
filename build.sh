@@ -93,10 +93,10 @@ checkout_indy_sdk() {
         git clone https://github.com/hyperledger/indy-sdk $INDY_SDK_DIR
     fi
 
-    pushd $INDY_SDK_DIR
-    git fetch --all
-    git checkout $INDY_VERSION
-    popd
+    #pushd $INDY_SDK_DIR
+    #git fetch --all
+    #git checkout $INDY_VERSION
+    #popd
 }
 
 build_libindy() {
@@ -311,6 +311,9 @@ build_vcx_framework() {
     cp -v ConnectMeVcx.h vcx.framework/Headers
     cp -v include/libvcx.h vcx.framework/Headers
     cp -v vcx/vcx.h vcx.framework/Headers
+    cp -v utils/VcxLogger.h vcx.framework/Headers
+    cp -v utils/IndySdk.h vcx.framework/Headers
+    cp -v utils/IndyTypes.h vcx.framework/Headers
     if [ -d tmp ]; then
         rm -rf tmp
     fi
@@ -369,9 +372,9 @@ abspath() {
 }
 
 # Build 3rd party libraries
-# build_crypto
-# build_libsodium
-# build_libzmq
+build_crypto
+build_libsodium
+build_libzmq
 
 
 # Extract architectures from fat files int non-fat files
@@ -379,30 +382,30 @@ abspath() {
 # OPENSSL_LIB_DIR variable for folder with both OpenSSL libs (libssl and libcrypto) toghether.
 
 # extract_architectures LIB_PATH LIB_FILE_NAME and LIB_NAME
-# extract_architectures output/libsodium-ios/dist/ios/lib/libsodium.a libsodium sodium
-# extract_architectures output/libzmq-ios/dist/ios/lib/libzmq.a libzmq zmq
-# extract_architectures output/OpenSSL-for-iPhone/lib/libssl.a libssl openssl
-# extract_architectures output/OpenSSL-for-iPhone/lib/libcrypto.a libcrypto openssl
+extract_architectures output/libsodium-ios/dist/ios/lib/libsodium.a libsodium sodium
+extract_architectures output/libzmq-ios/dist/ios/lib/libzmq.a libzmq zmq
+extract_architectures output/OpenSSL-for-iPhone/lib/libssl.a libssl openssl
+extract_architectures output/OpenSSL-for-iPhone/lib/libcrypto.a libcrypto openssl
 
 
 # Build libindy
-# checkout_indy_sdk
-# build_libindy
-# copy_libindy_architectures
+checkout_indy_sdk
+build_libindy
+copy_libindy_architectures
 
 
 # Build vcx
-# build_libvcx
-# copy_libvcx_architectures
+build_libvcx
+copy_libvcx_architectures
 
 
 # Copy libraries to combine
-# copy_libs_tocombine
+copy_libs_tocombine
 
 # Combine libs by arch and merge libs to single fat binary
-# combine_libs libvcxall
+combine_libs libvcxall
 
 
 # Build vcx.framework
 # apply_vcx_wrapper_ios_patch
-# build_vcx_framework libvcxall
+build_vcx_framework libvcxall

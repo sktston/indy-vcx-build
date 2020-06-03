@@ -13,7 +13,11 @@ rustup component add rls-preview rust-analysis rust-src
 
 echo "Setup rustup target platforms"
 rustup target remove aarch64-linux-android armv7-linux-androideabi arm-linux-androideabi i686-linux-android x86_64-linux-android
-rustup target add aarch64-apple-ios armv7-apple-ios armv7s-apple-ios x86_64-apple-ios i386-apple-ios
+rustup target add aarch64-apple-ios
+rustup target add armv7-apple-ios
+rustup target add armv7s-apple-ios
+rustup target add x86_64-apple-ios
+rustup target add i386-apple-ios
 
 RUST_TARGETS=$(rustc --print target-list | grep -i ios)
 if [ "$RUST_TARGETS" = "" ]; then
